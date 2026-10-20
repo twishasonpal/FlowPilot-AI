@@ -1,0 +1,5 @@
+[
+ {"name":"support approval","template":"support","input":{"subject":"Access","description":"Cannot sign in"},"expected_status":"waiting_approval"},
+ {"name":"unsupported tool","tool":"shell.execute","expected":"rejected"},
+ {"name":"document missing field","template":"document","input":{"text":"amount: 12","fields":["amount","vendor"]},"expected_missing":["vendor"]}
+]

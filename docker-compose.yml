@@ -1,0 +1,32 @@
+services:
+  backend:
+    build: ./backend
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgresql+psycopg://flowpilot:${POSTGRES_PASSWORD:-flowpilot-local}@db:5432/flowpilot
+    ports: ["5000:5000"]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: unless-stopped
+  frontend:
+    build: ./frontend
+    ports: ["5173:5173"]
+    environment:
+      VITE_API_URL: http://localhost:5000/api/v1
+    depends_on: [backend]
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: flowpilot
+      POSTGRES_USER: flowpilot
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-flowpilot-local}
+    volumes: ["postgres-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flowpilot -d flowpilot"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  postgres-data:

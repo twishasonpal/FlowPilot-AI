@@ -1,0 +1,8 @@
+Flask>=3.0,<4
+Flask-Cors>=4,<6
+Flask-Limiter>=3.8,<4
+SQLAlchemy>=2.0,<3
+pydantic>=2.7,<3
+langgraph>=0.2,<2
+python-dotenv>=1,<2
+pytest>=8,<9
